@@ -923,10 +923,11 @@ document.addEventListener('click', function(e){
     var o = { ref: 'S4L-' + String(now.getFullYear()).slice(2) + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '-' + Math.random().toString(36).slice(2,5).toUpperCase(),
       date: String(now.getDate()).padStart(2,'0') + '/' + String(now.getMonth()+1).padStart(2,'0') + '/' + now.getFullYear(),
       name: f.name, phone: f.phone, ig: f.ig, contact: f.phone + (f.ig ? ' · ' + f.ig : ''), city: f.city, note: f.note,
-      items: it.map(function(x){ return {name:x.name, brand:x.brand, size:x.size, price:Number(x.price)||0}; }), total: total() };
+      items: it.map(function(x){ return {name:x.name, brand:x.brand, size:x.size, price:Number(x.price)||0, img:x.img}; }), total: total() };
     state.order = o; state.orderText = orderText(o); state.step = "invoice";
     sendOrder('Nouvelle commande ' + o.ref + ' – ' + o.name + ' – ' + da(o.total), { commande: o.ref, date: o.date, nom: o.name, telephone: o.phone, instagram: o.ig || '', ville: o.city, message: o.note || '', total: da(o.total),
-      articles: o.items.map(function(x,i){ return (i+1)+'. '+x.name+(x.brand?' ('+x.brand+')':'')+' : '+da(x.price); }).join('\n'), texte_complet: state.orderText }, true);
+      articles: o.items.map(function(x,i){ return (i+1)+'. '+x.name+(x.brand?' ('+x.brand+')':'')+' : '+da(x.price); }).join('\n'), photos: o.items.map(function(x,i){ var u = String(x.img||''); if (!u || u.indexOf('data:')===0) return (i+1)+'. '+x.name; try { u = new URL(u, location.href).href; } catch(e) {} return (i+1)+'. '+x.name+' : '+u; }).join('\n\n'),
+      texte_complet: state.orderText }, true);
     try { sessionStorage.setItem('s4l-order', JSON.stringify(o)); } catch(e) {}
     render(); window.scrollTo(0,0);
   }
