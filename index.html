@@ -864,10 +864,24 @@ function orderText(o){
 var ORDER_URL = 'https://formspree.io/f/xeaawybz';
 function sendOrder(subject, data, track){
   if (track) state.sent = 'sending';
+  var payload = Object.assign({_subject: subject}, data);
   var done = function(ok, why){ if (track) { state.sent = ok ? 'ok' : 'err'; state.sentWhy = why || ''; render(); } };
-  try { fetch(ORDER_URL, { method:'POST', headers:{'Accept':'application/json','Content-Type':'application/json'}, body: JSON.stringify(Object.assign({_subject: subject}, data)) })
-    .then(function(r){ return r.text().then(function(t){ var why = 'HTTP ' + r.status; try { var j = JSON.parse(t); if (j.errors && j.errors.length) why += ' – ' + j.errors.map(function(e){ return e.message || e.code; }).join(', '); else if (j.error) why += ' – ' + j.error; } catch(e) {} done(r.ok, why); }); })
-    .catch(function(e){ done(false, 'réseau : ' + (e && e.message || e)); }); } catch(e) { done(false, String(e)); }
+  var viaForm = function(why){
+    try {
+      var name = 's4l-sink-' + Date.now();
+      var ifr = document.createElement('iframe'); ifr.name = name; ifr.style.display = 'none'; document.body.appendChild(ifr);
+      var f = document.createElement('form'); f.method = 'POST'; f.action = ORDER_URL; f.target = name; f.style.display = 'none';
+      Object.keys(payload).forEach(function(k){ var t = document.createElement('textarea'); t.name = k; t.value = payload[k]; f.appendChild(t); });
+      document.body.appendChild(f); f.submit();
+      setTimeout(function(){ done(true); }, 1500);
+    } catch(e) { done(false, why + ' / ' + e); }
+  };
+  try {
+    var body = new URLSearchParams(); Object.keys(payload).forEach(function(k){ body.append(k, payload[k]); });
+    fetch(ORDER_URL, { method:'POST', headers:{'Accept':'application/json'}, body: body })
+      .then(function(r){ return r.text().then(function(t){ if (r.ok) return done(true); var why = 'HTTP ' + r.status; try { var j = JSON.parse(t); if (j.errors && j.errors.length) why += ' – ' + j.errors.map(function(e){ return e.message || e.code; }).join(', '); else if (j.error) why += ' – ' + j.error; } catch(e) {} done(false, why); }); })
+      .catch(function(e){ viaForm('réseau : ' + (e && e.message || e)); });
+  } catch(e) { viaForm(String(e)); }
 }
 function copy(text){
   var ok = function(){ toast("Message copié"); };
