@@ -725,7 +725,7 @@ function checkout(){
       (s.whatsapp ? '<a class="btn accent" href="https://wa.me/'+esc(String(s.whatsapp).replace(/\D/g,''))+'?text='+encodeURIComponent(state.orderText)+'" target="_blank" rel="noopener">Envoyer ma commande sur WhatsApp</a>' : '') +
       (state.sent === 'ok' ? '<div class="sentok">✓ Commande envoyée à Shop4less !<small>Je vous contacte pour confirmer la disponibilité.</small></div>'
         : state.sent === 'sending' ? '<div class="sentok wait">Envoi de votre commande…</div>'
-        : '<div class="sentok err">La commande n\'a pas pu être envoyée automatiquement.<small>Copiez le message ci-dessous et envoyez-le à '+esc(s.email||'')+' ou sur Instagram @'+esc(s.instagram||'')+'.</small></div>' +
+        : '<div class="sentok err">La commande n\'a pas pu être envoyée automatiquement.<small>Copiez le message ci-dessous et envoyez-le à '+esc(s.email||'')+' ou sur Instagram @'+esc(s.instagram||'')+'.</small>'+(state.sentWhy?'<small style="opacity:.7">Code : '+esc(state.sentWhy)+'</small>':'')+'</div>' +
           '<button class="btn accent" data-act="ck-copy">Copier le message de commande</button>' +
           (s.email ? '<a class="btn ghost" href="mailto:'+esc(s.email)+'?subject='+encodeURIComponent('Commande Shop4less '+o.ref)+'&body='+encodeURIComponent(state.orderText)+'">Ouvrir mon e-mail</a>' : '')) +
       '<button class="btn ghost" data-act="ck-new">Terminer</button></div>' +
@@ -864,9 +864,10 @@ function orderText(o){
 var ORDER_URL = 'https://formspree.io/f/xeaawybz';
 function sendOrder(subject, data, track){
   if (track) state.sent = 'sending';
-  var done = function(ok){ if (track) { state.sent = ok ? 'ok' : 'err'; render(); } };
+  var done = function(ok, why){ if (track) { state.sent = ok ? 'ok' : 'err'; state.sentWhy = why || ''; render(); } };
   try { fetch(ORDER_URL, { method:'POST', headers:{'Accept':'application/json','Content-Type':'application/json'}, body: JSON.stringify(Object.assign({_subject: subject}, data)) })
-    .then(function(r){ done(r.ok); }).catch(function(){ done(false); }); } catch(e) { done(false); }
+    .then(function(r){ return r.text().then(function(t){ var why = 'HTTP ' + r.status; try { var j = JSON.parse(t); if (j.errors && j.errors.length) why += ' – ' + j.errors.map(function(e){ return e.message || e.code; }).join(', '); else if (j.error) why += ' – ' + j.error; } catch(e) {} done(r.ok, why); }); })
+    .catch(function(e){ done(false, 'réseau : ' + (e && e.message || e)); }); } catch(e) { done(false, String(e)); }
 }
 function copy(text){
   var ok = function(){ toast("Message copié"); };
