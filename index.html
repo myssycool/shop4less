@@ -630,7 +630,7 @@ function story(){
     '<div class="storyfacts"><div><b>Over 40</b><span>&amp; fabulous</span></div><div><b>9 to 5</b><span>chic au bureau</span></div><div><b>Live</b><span>chaque semaine</span></div></div>' +
     '</div></div></section>';
 }
-var XMAS = (function(){ var n = new Date(); return n < new Date(2027,0,1); })();
+var XMAS = false;
 function cleanHero(){
   var s = DATA.settings || {};
   var H = (s.heroes||[]).filter(Boolean);
