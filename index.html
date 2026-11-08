@@ -844,10 +844,14 @@ function publish(){
     });
 }
 function orderText(o){
-  var lines = o.items.map(function(x,i){ return (i+1)+'. '+x.name+' – '+x.brand+(x.size?' (T. '+x.size+')':'')+' : '+da(x.price); });
+  var lines = o.items.map(function(x,i){ return (i+1)+'. '+x.name+(x.brand?' – '+x.brand:'')+(x.size && x.name.indexOf('Taille')<0?' (T. '+x.size+')':'')+' : '+da(x.price); });
   return 'Bonjour Shop4less ! Voici ma commande 🛍️\nFacture N° ' + o.ref + ' du ' + o.date + '\n\n' + lines.join('\n') + '\n\nTOTAL À PAYER : ' + da(o.total) +
     '\n\nNom : ' + o.name + '\nTéléphone : ' + o.phone + (o.ig ? '\nInstagram : ' + o.ig : '') + '\nWilaya / ville : ' + o.city + (o.note ? '\nMessage : ' + o.note : '') +
     '\n\nPaiement en espèces au retrait. Merci !';
+}
+var ORDER_URL = 'https://formspree.io/f/xeaawybz';
+function sendOrder(subject, data){
+  try { fetch(ORDER_URL, { method:'POST', headers:{'Accept':'application/json','Content-Type':'application/json'}, body: JSON.stringify(Object.assign({_subject: subject}, data)) }).catch(function(){}); } catch(e) {}
 }
 function copy(text){
   var ok = function(){ toast("Message copié"); };
@@ -872,6 +876,7 @@ document.addEventListener('click', function(e){
   else if (act === 'view') { state.product = id; render(); }
   else if (act === 'lookask') { var lk = (DATA.shopLooks||[])[+el.getAttribute('data-i')]; if (lk) { var msg = 'Bonjour Mymel ! Je veux le look « ' + lk.title + ' » (Shop the look). Ma taille : … Ma ville : …';
     try { navigator.clipboard.writeText(msg); } catch(e) {}
+    sendOrder('Demande Shop the look – ' + lk.title, { type: 'Shop the look', look: lk.title, pieces: lk.pieces });
     var ss = DATA.settings||{}; var url = ss.whatsapp ? 'https://wa.me/'+String(ss.whatsapp).replace(/\D/g,'')+'?text='+encodeURIComponent(msg) : 'https://ig.me/m/'+(ss.instagram||'shop4lessco');
     toast('Message copié : collez-le dans votre message'); window.open(url, '_blank', 'noopener'); } }
   else if (act === 'sz') { state.size = state.size || {}; state.size[id] = el.getAttribute('data-k'); render(); }
@@ -890,6 +895,8 @@ document.addEventListener('click', function(e){
       name: f.name, phone: f.phone, ig: f.ig, contact: f.phone + (f.ig ? ' · ' + f.ig : ''), city: f.city, note: f.note,
       items: it.map(function(x){ return {name:x.name, brand:x.brand, size:x.size, price:Number(x.price)||0}; }), total: total() };
     state.order = o; state.orderText = orderText(o); state.step = "invoice";
+    sendOrder('Nouvelle commande ' + o.ref + ' – ' + o.name + ' – ' + da(o.total), { commande: o.ref, date: o.date, nom: o.name, telephone: o.phone, instagram: o.ig || '', ville: o.city, message: o.note || '', total: da(o.total),
+      articles: o.items.map(function(x,i){ return (i+1)+'. '+x.name+(x.brand?' ('+x.brand+')':'')+' : '+da(x.price); }).join('\n'), texte_complet: state.orderText });
     try { sessionStorage.setItem('s4l-order', JSON.stringify(o)); } catch(e) {}
     render(); window.scrollTo(0,0);
   }
