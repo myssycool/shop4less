@@ -560,7 +560,7 @@ function card(x){
     '<button class="ph" data-act="view" data-id="'+x.id+'" aria-label="Voir '+esc(x.name)+'">' +
     (selImg(x) ? '<img src="'+selImg(x)+'" alt="'+esc(x.brand+' '+x.name)+'" loading="lazy">' : '') +
     (x.sold ? '<span class="badge sold">Vendu</span>' : (x.isNew ? '<span class="badge">Nouveau</span>' : '')) + '</button>' +
-    (x.brand?'<div class="brand">'+esc(x.brand)+'</div>':'')+'<div class="name">'+esc(x.name)+'</div>' + swatches(x) + sizeBtns(x) + (!x.sold && x.qty===1 ? '<div class="stock">Pièce unique · 1 seule disponible</div>' : '') +
+    (x.brand?'<div class="brand">'+esc(x.brand)+'</div>':'')+'<div class="name">'+esc(x.name)+'</div>' + swatches(x) + sizeBtns(x) + (!x.sold && x.qty===1 ? '<div class="stock">Dernière pièce !</div>' : '') +
     '<div class="meta"><span class="note">'+(x.size && !sizesOf(x).length?'Taille '+esc(x.size):'&nbsp;')+'</span><span class="price">'+(!(Number(x.price)>0) ? 'Prix à venir' : (x.oldPrice && x.oldPrice > x.price ? '<s class="old">'+da(x.oldPrice)+'</s> ' : '')+da(x.price))+'</span></div>' + add + tools + '</article>';
 }
 function collection(){
@@ -742,7 +742,7 @@ function productModal(){
   return '<div class="scrim" data-act="closep"></div><div class="modal" data-act="closep"><div class="mbox" role="dialog" aria-label="'+esc(x.name)+'">' +
     (img ? '<img src="'+img+'" alt="'+esc(x.name)+'">' : '<div></div>') +
     '<div class="mc"><div style="display:flex;justify-content:space-between"><div class="eyebrow">'+esc(x.brand)+'</div><button class="x" data-act="closep" aria-label="Fermer">×</button></div>' +
-    '<h2>'+esc(x.name)+'</h2><div class="price" style="font-size:22px">'+(Number(x.price)>0?da(x.price):'Prix à venir')+'</div>'+(!x.sold && x.qty===1?'<div class="stock">Pièce unique · 1 seule disponible</div>':'') + swatches(x) + sizeBtns(x) +
+    '<h2>'+esc(x.name)+'</h2><div class="price" style="font-size:22px">'+(Number(x.price)>0?da(x.price):'Prix à venir')+'</div>'+(!x.sold && x.qty===1?'<div class="stock">Dernière pièce !</div>':'') + swatches(x) + sizeBtns(x) +
     (x.size && !sizesOf(x).length?'<div>Taille : <b>'+esc(x.size)+'</b></div>':'') + (x.cat?'<div class="note">'+esc(x.cat)+'</div>':'') +
     (x.desc?'<p style="margin:0">'+esc(x.desc)+'</p>':'') +
     (x.sold ? '<button class="btn" disabled>Vendu</button>' : !(Number(x.price)>0) ? '<button class="btn" disabled>Prix bientôt</button>' : '<button class="btn accent" data-act="toggle" data-id="'+sid+'">'+(inCart(sid)?'Retirer du panier':'Ajouter au panier')+'</button>') +
