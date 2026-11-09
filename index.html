@@ -516,10 +516,10 @@ var REF = (function(){ var m = location.search.match(/[?&]ref=([^&#]+)/); var r 
   return r; })();
 var BF = (function(){ var n = new Date(); return /[?&]bf=1/.test(location.search) || n < new Date(2026,10,22); })();
 function vprice(x){ var v = x && x.variants && x.variants[(state.sel||{})[x.id]||0]; return (v && v.price) || x.price; }
-function bfOff(x){ return (BF && x && x.bf && !x.sold) ? Math.round((Number(x.price)||0) * 0.10) : 0; }
+function bfOff(x){ return (BF && x && x.bf && !x.sold) ? Math.round((Number(x.price)||0) * 0.05) : 0; }
 function bfTotal(){ return cartItems().reduce(function(s,x){ return s + bfOff(x); }, 0); }
-function bfTag(x){ return (BF && x.bf && Number(x.price)>0 && !x.sold) ? '<div class="bfl">Black Friday · −10 % au panier</div>' : ''; }
-if (BF) { DATA.settings = DATA.settings || {}; DATA.settings.announce = '🖤 BLACK FRIDAY · −10 % sur les articles marqués · jusqu’au 21 novembre, jour du live 🖤'; }
+function bfTag(x){ return (BF && x.bf && Number(x.price)>0 && !x.sold) ? '<div class="bfl">Black Friday · −5 % au panier</div>' : ''; }
+if (BF) { DATA.settings = DATA.settings || {}; DATA.settings.announce = '🖤 BLACK FRIDAY · −5 % sur les articles marqués · jusqu’au 21 novembre, jour du live 🖤'; }
 var CSS = document.getElementById('s4l-css').textContent;
 var JS = document.getElementById('s4l-js').textContent;
 var DEPTS = [
@@ -746,7 +746,7 @@ function drawer(){
   else body = items.map(function(x){ return '<div class="line">' + (x.img?'<img src="'+x.img+'" alt="">':'<span></span>') +
       '<div class="t"><b>'+esc(x.name)+'</b><small>'+esc(x.brand)+(x.size?' · '+esc(x.size):'')+'</small><br><span class="price">'+da(x.price)+'</span></div>' +
       '<button class="rm" data-act="toggle" data-id="'+x.id+'">Retirer</button></div>'; }).join('') +
-      (bfTotal() ? '<div class="bfrow"><span>Sous-total</span><b>'+da(subtotal())+'</b></div><div class="bfrow bfr"><span>Remise Black Friday −10 %</span><b>−'+da(bfTotal())+'</b></div>' : '') +
+      (bfTotal() ? '<div class="bfrow"><span>Sous-total</span><b>'+da(subtotal())+'</b></div><div class="bfrow bfr"><span>Remise Black Friday −5 %</span><b>−'+da(bfTotal())+'</b></div>' : '') +
       '<div class="total"><span>Total</span><b>'+da(total())+'</b></div>' +
       '<button class="btn accent" data-act="checkout">Passer la commande</button>' +
       '<p class="note">Aucun paiement en ligne. Vous recevez votre facture et vous payez en espèces au retrait.</p>';
@@ -769,7 +769,7 @@ function invoiceHTML(o){
     '<div class="iblocks"><div><h4>FACTURÉ À</h4><p>'+esc(o.name)+'<br>'+esc(o.contact)+'<br>'+esc(o.city)+'</p></div>' +
     '<div><h4>DÉTAILS</h4><p>N° de facture : <b>'+esc(o.ref)+'</b><br>Date de facture : '+esc(o.date)+'<br>Date de retrait : ____________<br>Devise : DA</p></div></div>' +
     '<table class="itable"><thead><tr><th>Article</th><th>Description</th><th class="c">Qté</th><th class="r">Montant</th></tr></thead><tbody>'+rows+pad+'</tbody></table>' +
-    (o.discount ? '<div class="bfrow" style="margin-top:10px"><span>Sous-total</span><b>'+da(o.subtotal)+'</b></div><div class="bfrow bfr"><span>Remise Black Friday −10 %</span><b>−'+da(o.discount)+'</b></div>' : '') +
+    (o.discount ? '<div class="bfrow" style="margin-top:10px"><span>Sous-total</span><b>'+da(o.subtotal)+'</b></div><div class="bfrow bfr"><span>Remise Black Friday −5 %</span><b>−'+da(o.discount)+'</b></div>' : '') +
     '<div class="itotal"><span>TOTAL À PAYER</span><b>'+da(o.total)+'</b></div>' +
     '<p class="ipay">Paiement par CCP ou en espèces quand la commande est en Algérie. Livraison dans les 58 wilayas, retrait gratuit à Alger.</p>' +
     (o.note ? '<p class="ipay">Note : '+esc(o.note)+'</p>' : '') +
@@ -791,7 +791,7 @@ function checkout(){
   } else if (state.step === 'review') {
     inner = '<div class="cform"><div class="review">' + items.map(function(x){ return '<div class="line">' + (x.img?'<img src="'+x.img+'" alt="">':'<span></span>') +
       '<div class="t"><b>'+esc(x.name)+'</b><small>'+esc(x.brand)+(x.size?' · '+esc(x.size):'')+'</small></div><span class="price">'+da(x.price)+'</span></div>'; }).join('') +
-      (bfTotal() ? '<div class="bfrow"><span>Sous-total</span><b>'+da(subtotal())+'</b></div><div class="bfrow bfr"><span>Remise Black Friday −10 %</span><b>−'+da(bfTotal())+'</b></div>' : '') +
+      (bfTotal() ? '<div class="bfrow"><span>Sous-total</span><b>'+da(subtotal())+'</b></div><div class="bfrow bfr"><span>Remise Black Friday −5 %</span><b>−'+da(bfTotal())+'</b></div>' : '') +
       '<div class="total"><span>Total à payer au retrait</span><b>'+da(total())+'</b></div></div>' +
       '<div class="who"><h4>Vos coordonnées</h4><p>'+esc(f.name)+'<br>'+esc(f.phone)+(f.ig?' · '+esc(f.ig):'')+'<br>'+esc(f.city)+'</p><button class="rm" data-act="ck-edit">Modifier</button></div>' +
       '<div class="paybox"><b>Paiement</b><span>Aucun paiement en ligne. Vous payez par CCP ou en espèces quand votre commande est en Algérie. Livraison dans les 58 wilayas, retrait gratuit à Alger.</span></div>' +
@@ -966,7 +966,7 @@ function publish(){
 }
 function orderText(o){
   var lines = o.items.map(function(x,i){ return (i+1)+'. '+x.name+(x.brand?' – '+x.brand:'')+(x.size && x.name.indexOf('Taille')<0?' (T. '+x.size+')':'')+' : '+da(x.price); });
-  return 'Bonjour Shop4less ! Voici ma commande 🛍️\nFacture N° ' + o.ref + ' du ' + o.date + '\n\n' + lines.join('\n') + (o.discount ? '\n\nSous-total : ' + da(o.subtotal) + '\nRemise Black Friday −10 % : −' + da(o.discount) : '') + '\n\nTOTAL À PAYER : ' + da(o.total) +
+  return 'Bonjour Shop4less ! Voici ma commande 🛍️\nFacture N° ' + o.ref + ' du ' + o.date + '\n\n' + lines.join('\n') + (o.discount ? '\n\nSous-total : ' + da(o.subtotal) + '\nRemise Black Friday −5 % : −' + da(o.discount) : '') + '\n\nTOTAL À PAYER : ' + da(o.total) +
     '\n\nNom : ' + o.name + '\nTéléphone : ' + o.phone + (o.ig ? '\nInstagram : ' + o.ig : '') + '\nWilaya / ville : ' + o.city + (o.parrain ? '\nRecommandée par : ' + o.parrain : '') + (o.note ? '\nMessage : ' + o.note : '') +
     '\n\nPaiement par CCP ou en espèces à l’arrivée en Algérie. Merci !';
 }
