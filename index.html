@@ -663,7 +663,7 @@ function collection(){
   } else {
     body = chips + (items.length ? '<div class="grid">' + items.map(card).join('') + '</div>' : '<div class="empty"><h3>Bientôt dans ce rayon</h3><p>De nouvelles pièces arrivent inchallah. Rejoignez le groupe privé pour les voir en premier.</p></div>');
   }
-  return '<section id="collection" class="wrap"><div class="sec-head"><div><h2 class="vh2" style="text-align:left">'+(state.deal?'Les soldes':'Nouveautés')+'</h2>'+(state.deal && BF ? '<p class="solsub">Black Friday · −5 % au panier sur les articles TJ Maxx & Marshalls, jusqu’au live du 21 novembre</p>' : '')+'</div>' +
+  return '<section id="collection" class="wrap"><div class="sec-head"><div><h2 class="vh2" style="text-align:left">'+(state.deal?'Les soldes':'Nouveautés')+'</h2>'+(state.deal && BF ? '<p class="solsub">Black Friday · −5 % au panier sur les articles marqués, jusqu’au live du 21 novembre</p>' : '')+'</div>' +
     '<button class="sgbtn" data-act="sizeguide">📏 Guide des tailles</button></div>' + body + '</section>';
 }
 function how(){
