@@ -540,7 +540,7 @@ function priceHTML(x){ var p = vprice(x); if (!(Number(x.price)>0)) return 'Prix
   if (bfOn(x)) return '<s class="old">'+da(p)+'</s> <b class="bfp">'+da(p - Math.round(p*0.05))+'</b>';
   return (x.oldPrice && x.oldPrice > x.price ? '<s class="old">'+da(x.oldPrice)+'</s> ' : '') + da(p); }
 function bfTag(x){ return (bfOn(x) ? '<div class="bfl">Black Friday −5 % · '+da(vprice(x) - Math.round(vprice(x)*0.05))+'</div>' : ''); }
-if (BF) { DATA.settings = DATA.settings || {}; DATA.settings.announce = '🖤 BLACK FRIDAY · −5 % sur les articles marqués · jusqu’au 21 novembre, jour du live 🖤'; }
+if (BF) { DATA.settings = DATA.settings || {}; DATA.settings.announce = '🖤 Shop for less… pay even less ! Déjà petits prix, et pour le BLACK FRIDAY −5 % en plus · jusqu’au 21 novembre, jour du live 🖤'; }
 var CSS = document.getElementById('s4l-css').textContent;
 var JS = document.getElementById('s4l-js').textContent;
 var DEPTS = [
@@ -664,7 +664,7 @@ function collection(){
   } else {
     body = chips + (items.length ? '<div class="grid">' + items.map(card).join('') + '</div>' : '<div class="empty"><h3>Bientôt dans ce rayon</h3><p>De nouvelles pièces arrivent inchallah. Rejoignez le groupe privé pour les voir en premier.</p></div>');
   }
-  return '<section id="collection" class="wrap"><div class="sec-head"><div><h2 class="vh2" style="text-align:left">'+(state.deal?'Les soldes':'Nouveautés')+'</h2>'+(state.deal && BF ? '<p class="solsub">Black Friday · −5 % au panier sur les articles marqués, jusqu’au live du 21 novembre</p>' : '')+'</div>' +
+  return '<section id="collection" class="wrap"><div class="sec-head"><div><h2 class="vh2" style="text-align:left">'+(state.deal?'Les soldes':'Nouveautés')+'</h2>'+(state.deal && BF ? '<p class="solsub">Shop for less… pay even less ! Nos prix sont déjà doux, et pour le Black Friday on vous offre −5 % en plus, jusqu’au live du 21 novembre.</p>' : '')+'</div>' +
     '<button class="sgbtn" data-act="sizeguide">📏 Guide des tailles</button></div>' + body + '</section>';
 }
 function how(){
