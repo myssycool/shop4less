@@ -778,7 +778,7 @@ function checkout(){
       '<div class="cfoot"><button class="btn ghost" type="button" data-act="ck-edit">Retour</button><button class="btn accent" data-act="ck-confirm">Valider ma commande</button></div></div>';
   } else {
     var o = state.order, s = DATA.settings||{};
-    inner = '<div class="cform"><p class="okmsg">Merci '+esc(o.name.split(' ')[0])+' ! Voici votre facture. <b>Dernière étape :</b> envoyez-la à Shop4less pour confirmer votre commande.</p>' +
+    inner = '<div class="cform"><p class="okmsg">Merci '+esc(o.name.split(' ')[0])+' ! Voici votre facture. Votre commande est envoyée automatiquement à Shop4less, je vous contacte très vite pour la confirmer. 💕</p>' +
       invoiceHTML(o) +
       '<div class="sendrow">' +
       (s.whatsapp ? '<a class="btn accent" href="https://wa.me/'+esc(String(s.whatsapp).replace(/\D/g,''))+'?text='+encodeURIComponent(state.orderText)+'" target="_blank" rel="noopener">Envoyer ma commande sur WhatsApp</a>' : '') +
