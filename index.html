@@ -927,9 +927,10 @@ function shopLooks(){
 function sizeGuide(){
   if (!state.sizeGuide) return '';
   var R=[['XS','0–2','34','81–84','61–64','86–89'],['S','4–6','36–38','86–89','66–69','91–94'],['M','8–10','40–42','91–97','71–76','97–102'],
-         ['L','12–14','44–46','99–104','79–84','104–109'],['XL','16','48','107–112','86–91','112–117'],['XXL','18–20','50–52','114–119','94–99','119–124']];
+         ['L','12–14','44–46','99–104','79–84','104–109'],['XL','16','48','107–112','86–91','112–117'],['XXL','18–20','50–52','114–119','94–99','119–124'],
+         ['1X','14W–16W','52–54','112–119','97–104','122–129'],['2X','18W–20W','54–56','122–129','107–114','132–139'],['3X','22W–24W','56–58','132–139','117–124','142–149'],['4X','26W–28W','58–60','142–149','127–134','152–159']];
   return '<div class="scrim" data-act="sgclose"></div><aside class="drawer" role="dialog" aria-label="Guide des tailles"><div class="dhead"><h2>Guide des tailles</h2><button class="x" data-act="sgclose" aria-label="Fermer">×</button></div>' +
-    '<div class="dbody"><p class="note">Tailles américaines (femme) et leur équivalence en Algérie / France. Mesures du corps en centimètres.</p>' +
+    '<div class="dbody"><p class="note">Tailles américaines (femme) et leur équivalence en Algérie / France. Mesures du corps en centimètres. Grandes tailles (1X à 4X, « W » ou « Plus » sur les étiquettes) jusqu’au 58–60.</p>' +
     '<div class="sgwrap"><table class="sgt"><thead><tr><th>Taille</th><th>US</th><th>DZ / FR</th><th>Poitrine</th><th>Taille</th><th>Hanches</th></tr></thead><tbody>' +
     R.map(function(r){ return '<tr>'+r.map(function(c,i){ return i? '<td>'+c+'</td>' : '<th>'+c+'</th>'; }).join('')+'</tr>'; }).join('') + '</tbody></table></div>' +
     '<h3 style="font-size:20px;margin-top:6px">Comment se mesurer</h3>' +
@@ -944,7 +945,7 @@ function lookModal(){
     : '<form id="lookform" class="cform">' +
       '<div class="field"><label for="l-name">Nom et prénom</label><input id="l-name" required autocomplete="name"></div>' +
       '<div class="row2"><div class="field"><label for="l-phone">Téléphone</label><input id="l-phone" required inputmode="tel" placeholder="05 / 06 / 07…"></div>' +
-      '<div class="field"><label for="l-size">Taille</label><select id="l-size" required><option value="">Choisir</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select></div></div>' +
+      '<div class="field"><label for="l-size">Taille</label><select id="l-size" required><option value="">Choisir</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>1X</option><option>2X</option><option>3X</option><option>4X</option></select></div></div>' +
       '<button type="button" class="sglink" data-act="sizeguide">Guide des tailles</button>' +
       '<div class="field"><label for="l-city">Wilaya / ville</label><input id="l-city" required placeholder="Alger"></div>' +
       '<div class="field"><label for="l-note">Message (facultatif)</label><textarea id="l-note" placeholder="Pointure, pièces souhaitées…"></textarea></div>' +
