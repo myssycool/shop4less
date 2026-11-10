@@ -802,7 +802,7 @@ function invoiceHTML(o){
     '<table class="itable"><thead><tr><th>Article</th><th>Description</th><th class="c">Qté</th><th class="r">Montant</th></tr></thead><tbody>'+rows+pad+'</tbody></table>' +
     (o.discount ? '<div class="bfrow" style="margin-top:10px"><span>Sous-total</span><b>'+da(o.subtotal)+'</b></div><div class="bfrow bfr"><span>Remise Black Friday −5 %</span><b>−'+da(o.discount)+'</b></div>' : '') +
     '<div class="itotal"><span>TOTAL À PAYER</span><b>'+da(o.total)+'</b></div>' +
-    '<p class="ipay">Paiement par CCP ou en espèces quand la commande est en Algérie. Livraison dans les 58 wilayas, retrait gratuit à Alger.</p>' +
+    '<p class="ipay"><b>Délai de livraison : 25 jours minimum, 30 jours maximum.</b><br>Paiement par CCP ou en espèces quand la commande est en Algérie. Livraison dans les 58 wilayas, retrait gratuit à Alger.</p>' +
     (o.note ? '<p class="ipay">Note : '+esc(o.note)+'</p>' : '') +
     '<p class="ithanks">Merci beaucoup pour votre commande !</p></div>';
 }
@@ -1001,7 +1001,7 @@ function orderText(o){
   var lines = o.items.map(function(x,i){ return (i+1)+'. '+x.name+(x.brand?' – '+x.brand:'')+(x.size && x.name.indexOf('Taille')<0?' (T. '+x.size+')':'')+' : '+da(x.price); });
   return 'Bonjour Shop4less ! Voici ma commande 🛍️\nFacture N° ' + o.ref + ' du ' + o.date + '\n\n' + lines.join('\n') + (o.discount ? '\n\nSous-total : ' + da(o.subtotal) + '\nRemise Black Friday −5 % : −' + da(o.discount) : '') + '\n\nTOTAL À PAYER : ' + da(o.total) +
     '\n\nNom : ' + o.name + '\nTéléphone : ' + o.phone + (o.ig ? '\nInstagram : ' + o.ig : '') + '\nWilaya / ville : ' + o.city + (o.parrain ? '\nRecommandée par : ' + o.parrain : '') + (o.note ? '\nMessage : ' + o.note : '') +
-    '\n\nPaiement par CCP ou en espèces à l’arrivée en Algérie. Merci !';
+    '\n\nDélai de livraison : 25 jours minimum, 30 jours maximum.\nPaiement par CCP ou en espèces à l’arrivée en Algérie. Merci !';
 }
 var ORDER_URL = 'https://formspree.io/f/xeaawybz';
 function sendOrder(subject, data, track){
