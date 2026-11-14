@@ -760,7 +760,7 @@ function cleanHero(){
     '<h1>Le chic américain,<br><em>en dinars.</em></h1>' +
     '<p class="lh-sub">Des vraies marques américaines, choisies une par une pour vous. Shop for less… pay even less !</p>' +
     '<div class="lh-btns"><button class="lh-b" data-act="goall">Voir les nouveautés</button><button class="lh-b out" data-act="godeal">Les soldes</button></div>' +
-    '<p class="lh-trust"><span>✓ 100 % original</span><span>✓ Marques US</span><span>✓ Pas de contrefaçon</span></p></div>' +
+    '<p class="lh-trust"><span>✓ 100 % original · US brands</span></p></div>' +
     '<div class="lhero-pics">' + pics.map(function(x){ return '<button class="lh-p" data-act="view" data-id="'+esc(x.id)+'"><img src="'+selImg(x)+'" alt="'+esc(x.brand+' '+x.name)+'"><span>'+esc(x.brand||x.name)+'</span></button>'; }).join('') + '</div>' +
     '</div></section>';
 }
@@ -920,7 +920,7 @@ function productModal(){
   return '<div class="scrim" data-act="closep"></div><div class="modal" data-act="closep"><div class="mbox" role="dialog" aria-label="'+esc(x.name)+'">' +
     (img ? '<img src="'+img+'" alt="'+esc(x.name)+'">' : '<div></div>') +
     '<div class="mc"><div style="display:flex;justify-content:space-between"><div class="eyebrow">'+esc(x.brand)+'</div><button class="x" data-act="closep" aria-label="Fermer">×</button></div>' +
-    '<h2>'+esc(x.name)+'</h2><div class="price" style="font-size:22px">'+priceHTML(x)+'</div>'+bfTag(x)+'<div class="dlv">📦 Livraison en Algérie : 25 à 30 jours</div>'+'<div class="orig">✓ 100 % original · marque américaine</div>'+(!x.sold && x.qty===1?'<div class="stock">Dernière pièce !</div>':'') + swatches(x) + sizeBtns(x) +
+    '<h2>'+esc(x.name)+'</h2><div class="price" style="font-size:22px">'+priceHTML(x)+'</div>'+bfTag(x)+'<div class="dlv">📦 Livraison en Algérie : 25 à 30 jours</div>'+'<div class="orig">✓ 100 % original · US brand</div>'+(!x.sold && x.qty===1?'<div class="stock">Dernière pièce !</div>':'') + swatches(x) + sizeBtns(x) +
     (x.size && !sizesOf(x).length?'<div>Taille : <b>'+esc(x.size)+'</b></div>':'') + (x.cat?'<div class="note">'+esc(x.cat)+'</div>':'') +
     (x.desc?'<p style="margin:0">'+esc(x.desc)+'</p>':'') +
     (x.gallery && x.gallery.length ? '<div class="pgal"><b>Détails du produit</b>' + x.gallery.map(function(g){ return '<img src="'+g+'" alt="" loading="lazy">'; }).join('') + '</div>' : '') +
