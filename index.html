@@ -577,7 +577,7 @@ var BF = (function(){ var n = new Date(); return /[?&]bf=1/.test(location.search
 function vprice(x){ var v = x && x.variants && x.variants[(state.sel||{})[x.id]||0]; return (v && v.price) || x.price; }
 function bfOff(x){ return (BF && x && x.bf && !x.sold) ? Math.round((Number(x.price)||0) * 0.05) : 0; }
 function dayOf(t){ return new Date(Number(t)||0).toDateString(); }
-var LASTDAY=null; function newDay(x){ if (LASTDAY===null) { var m=0; DATA.items.forEach(function(i){ if ((i.added||0)>m) m=i.added; }); LASTDAY=dayOf(m); } return dayOf(x.added)===LASTDAY; }
+var LASTDAY=null; function newDay(x){ if (LASTDAY===null) { var m=0; DATA.items.forEach(function(i){ if ((i.added||0)>m) m=i.added; }); LASTDAY=m; } return (x.added||0) >= LASTDAY - 10*864e5; }
 function norm(t){ return String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’']/g,' ').trim(); }
 function isSale(x){ return !x.sold && ((x.oldPrice && x.oldPrice > x.price) || (BF && x.bf && Number(x.price)>0)); }
 function bfTotal(){ return cartItems().reduce(function(s,x){ return s + bfOff(x); }, 0); }
