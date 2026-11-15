@@ -576,7 +576,7 @@ var DATA = JSON.parse(document.getElementById('s4l-data').textContent);
 var REF = (function(){ var m = location.search.match(/[?&]ref=([^&#]+)/); var r = '';
   try { if (m) { r = decodeURIComponent(m[1].replace(/\+/g,' ')).slice(0,60); localStorage.setItem('s4l-ref', r); } else r = localStorage.getItem('s4l-ref') || ''; } catch(e) { if (m) r = decodeURIComponent(m[1]); }
   return r; })();
-var BF = (function(){ var n = new Date(); return /[?&]bf=1/.test(location.search) || n < new Date(2026,10,24); })();
+var BF = false; /* Black Friday arrêté le 15/11/2026 (taux de change) */
 function vprice(x){ var v = x && x.variants && x.variants[(state.sel||{})[x.id]||0]; return (v && v.price) || x.price; }
 function bfOff(x){ return (BF && x && x.bf && !x.sold) ? Math.round((Number(x.price)||0) * 0.05) : 0; }
 function dayOf(t){ return new Date(Number(t)||0).toDateString(); }
@@ -821,8 +821,7 @@ function foot(){
     ['Où est-ce que vous livrez ?','Dans les 58 wilayas. Le retrait est gratuit à Alger.'],
     ['Comment choisir ma taille ?','Ce sont des tailles américaines. Ouvrez le « Guide des tailles » (US, DZ/FR et mesures en cm, du XS au 58–60). Chaque article indique s’il taille petit ou grand. Un doute ? Écrivez-moi avant de commander.'],
     ['Les articles sont-ils authentiques ?','Oui : des pièces neuves de marques américaines (Michael Kors, Calvin Klein, Tommy Hilfiger, Levi’s…), choisies une par une aux États-Unis.'],
-    ['Et si un article est épuisé ?','Les pièces partent aussi pendant les lives. Si un article est marqué « Épuisé », il n’est plus disponible. Si votre article part entre-temps, je vous préviens tout de suite.'],
-    ['Comment profiter du Black Friday ?','La remise de −5 % s’applique automatiquement dans le panier sur les articles marqués Black Friday, jusqu’au 23 novembre.']];
+    ['Et si un article est épuisé ?','Les pièces partent aussi pendant les lives. Si un article est marqué « Épuisé », il n’est plus disponible. Si votre article part entre-temps, je vous préviens tout de suite.']];
   var faq = '<section id="faq" class="faq"><div class="wrap"><h2 class="vh2">Questions fréquentes</h2><div class="fql">' + FAQ.map(function(q){ return '<details><summary>'+esc(q[0])+'</summary><p>'+esc(q[1])+'</p></details>'; }).join('') + '</div></div></section>';
   return faq + ct + '<footer><div class="wrap"><div><div class="logo">Shop4less<small>Shop for less, dress for your success</small></div></div>' +
     '<div style="display:grid;gap:6px">' +
